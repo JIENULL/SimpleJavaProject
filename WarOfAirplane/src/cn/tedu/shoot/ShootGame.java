@@ -50,7 +50,7 @@ public class ShootGame extends JPanel {
 
 	static {
 		try {
-			background = ImageIO.read(ShootGame.class.getResource("background2.jpg"));
+			background = ImageIO.read(ShootGame.class.getResource("background.jpg"));
 			bee = ImageIO.read(ShootGame.class.getResource("bee.png"));
 			bullet = ImageIO.read(ShootGame.class.getResource("bullet1.png"));
 			gameover = ImageIO.read(ShootGame.class.getResource("gameover.png"));
@@ -105,6 +105,7 @@ public class ShootGame extends JPanel {
 		shootIndex++;
 		if (shootIndex % 20 == 0) {
 			Bullet[] bs = hero.shoot();
+			System.out.println("走到这");
 			bullets = Arrays.copyOf(bullets, bullets.length + bs.length);
 			System.arraycopy(bs, 0, bullets, bullets.length - bs.length, bs.length);
 		}
@@ -132,10 +133,10 @@ public class ShootGame extends JPanel {
 		timer.schedule(new TimerTask() {
 			public void run() {
 				enterAction();
-				repaint();
-				stepAction();// 飞行物移动
 				shootAction();// 子弹移动
-				System.out.println("重画所有物体");
+				stepAction();// 飞行物移动
+				
+				repaint();
 			}
 		}, intervel, intervel);
 	}
@@ -148,14 +149,12 @@ public class ShootGame extends JPanel {
 		paintHero(g);
 		paintFlyingObject(g);
 		paintBullet(g);
-		System.out.println("画所有物体");
 	}
 
 	/**
 	 * 画英雄机
 	 */
 	public void paintHero(Graphics g) {
-		System.out.println("画英雄机");
 		g.drawImage(hero.image, hero.x, hero.y, null);
 	}
 
@@ -163,7 +162,6 @@ public class ShootGame extends JPanel {
 	 * 画飞行物
 	 */
 	public void paintFlyingObject(Graphics g) {
-		System.out.println("画飞行物");
 		
 		for (int i = 0; i < flyings.length; i++) {
 			FlyingObject f = flyings[i];
